@@ -16,5 +16,5 @@ module.exports = function () {
   app.use('/api/produtos', require('./produtos'))
 
   // register hooks
-  //app.service('/api/locations').hooks(require('./locations-graph'))
+//  app.service('/api/locations').hooks(require('./locations-graph'))
 }
