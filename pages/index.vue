@@ -13,7 +13,7 @@
         lazy-validation>
         <v-select 
           v-model="produto" 
-          :items="produtos" 
+          :items="produtos.map(d => d.name)" 
           :rules="produtoRules" 
           label="Produto" 
         />
