@@ -10,4 +10,7 @@ const ProdutoSchema = new Schema({
 });
 const Model = mongoose.model('Produto', ProdutoSchema);
 
-module.exports = service({ Model })
+module.exports = {
+  service: service({ Model }),
+  Model
+}

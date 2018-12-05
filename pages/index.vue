@@ -23,17 +23,30 @@
           type="number" 
           label="Quantidade" 
           required 
+          @change="update()" 
         />
-        <v-btn 
-          :disabled="!calculo" 
-          @click="submit">
-          Calcular
-        </v-btn>
         <v-btn 
           @click="clear">
           Limpar
         </v-btn>
       </v-form>
+    </v-flex>
+    <v-flex
+      xs12
+      sm6        
+      md4>
+      <v-card v-if="exibir_lista_materiais">
+        <v-card-title><h4>{{ produto }}</h4></v-card-title>
+        <v-divider/>
+        <v-list dense>
+          <v-list-tile 
+            v-for="material in materiais" 
+            :key="material.material">
+            <v-list-tile-content>{{ material.material }}:</v-list-tile-content>
+            <v-list-tile-content class="align-end">{{ material.quantidade }}</v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+      </v-card>
     </v-flex>
   </v-layout>
 </template>
@@ -53,41 +66,40 @@
         .then(records => {
           var result = {
             produtos: records
-        }
-      return result
-      })
+          }
+          return result
+        })
     },
     data: () => ({
       calculo: true,
+      exibir_lista_materiais:false,
+      materiais: "",
       quantidade: "",
       quantidadeRules: [
         v => !!v || "Quantidade deve ser selecionada",
-        v => v < 1 || "Informe a quantidade"
+        v => v > 0 || "Informe a quantidade"
       ],
       produto: "",
       produtoRules: [v => !!v || "Produto deve ser selecionado"],
     }),
-    computed: {
-      produtos_disponiveis: function () {
-        if(!this.produtos) {
-          return this.produtos
+    methods: {
+      update() {
+        if (this.$refs.form.validate()) {
+          this.$axios.get('/graphprodutos?produto=' + this.produto +'&quantidade='+this.quantidade )
+          .then(result => {
+            this.materiais = result.data
+            this.exibir_lista_materiais = true
+          })
+        }else{
+          this.materiais = []
+          this.exibir_lista_materiais = false
         }
-        return available
+      },
+      clear() {
+        this.exibir_lista_materiais = false
+        this.$refs.form.reset();
+        this.materiais = []
       }
-    },
-
-      methods: {
-          submit() {
-              if (this.$refs.form.validate()) {
-                  axios.post("/api/submit", {
-                      produto: this.produto,
-                      quantidade: this.quantidade
-                  });
-              }
-          },
-          clear() {
-              this.$refs.form.reset();
-          }
-      }
+    }
   };
 </script>

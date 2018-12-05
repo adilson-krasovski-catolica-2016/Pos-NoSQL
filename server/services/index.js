@@ -13,7 +13,8 @@ module.exports = function () {
   // handling middleware should go last.
   const app = this
 
-  app.use('/api/produtos', require('./produtos'))
+  app.use('/api/produtos', require('./produtos').service)
+  app.use('/api/graphprodutos', require('./graphprodutos'))
 
   // register hooks
 //  app.service('/api/locations').hooks(require('./locations-graph'))
