@@ -14,7 +14,7 @@ const middleware = require('./middleware')
 
 console.log('Conectando neo4j...')
 var neo4j = require('neo4j-driver').v1;
-var driver = neo4j.driver("bolt://localhost", neo4j.auth.basic('neo4j', 'admin'));
+var driver = neo4j.driver("bolt://localhost", neo4j.auth.basic('neo4j', 'admin'),{disableLosslessIntegers: true});
 console.log('Neo4j connected!')
 global.neo4jDriver = driver
 
