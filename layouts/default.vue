@@ -56,8 +56,8 @@
         fixed: false,
         items: [
           { icon: 'card_travel', title: 'Pedido', to: '/' },
-          { icon: 'extension', title: 'Cadastro Matéria-prima', to: '/inspire' },
-          { icon: 'settings', title: 'Cadastro Produto', to: '/inspire' }
+          { icon: 'extension', title: 'Cadastro Matéria-prima', to: '/pedidos' },
+          { icon: 'settings', title: 'Cadastro Produto', to: '/produtos' }
         ],
         miniVariant: false,
         right: true,
