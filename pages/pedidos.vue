@@ -18,7 +18,7 @@
         />
         <v-btn 
           @click="update">
-          Concultar
+          Consultar
         </v-btn>
         <v-btn 
           @click="clear">
@@ -30,12 +30,14 @@
       xs12
       sm6        
       md4>
-      <v-card v-if="exibir_pedido">
-        <v-card-title><h4>{{ produto }}</h4></v-card-title>
+      <v-card 
+        v-for="produto in produtos" 
+        :key="produto.produto">
+        <v-card-title><h4>{{ produto.produto }} = Quantidade: {{ produto.quantidade }}</h4></v-card-title>
         <v-divider/>
         <v-list dense>
           <v-list-tile 
-            v-for="material in materiais" 
+            v-for="material in produto.materiais" 
             :key="material.material">
             <v-list-tile-content>{{ material.material }}:</v-list-tile-content>
             <v-list-tile-content class="align-end">{{ material.quantidade }}</v-list-tile-content>
@@ -74,16 +76,16 @@
         v => !!v || "Quantidade deve ser selecionada",
         v => v > 0 || "Informe a quantidade"
       ],
-      produto: "",
-      pedidos:["pedido1", "pedido2"],
+      produtos: "",
+      pedidos:["pedido1", "pedido2", "pedido3", "pedido4"],
       produtoRules: [v => !!v || "Produto deve ser selecionado"],
     }),
     methods: {
       update() {
         this.$axios.get('/pedidos/'+ this.pedido)
           .then(result => {
-            console.log(result)
-            this.materiais = result.data
+            console.log(result.data)
+            this.produtos = result.data
             this.exibir_pedido = true
           })
       },
